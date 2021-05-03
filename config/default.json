@@ -1,4 +1,5 @@
 {
     "port": 5000,
+    "jwtSecret": "OPAS",
     "mongoUri": "mongodb+srv://SuslovMD:1haoU07LPz28iz0a@cluster0.ac3fu.mongodb.net/Notes?retryWrites=true&w=majority"
 }
