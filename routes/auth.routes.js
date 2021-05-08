@@ -18,7 +18,7 @@ router.post(
 
         if (!errors.isEmpty()){
             return res.status(400).json({
-                errors: error.array(),
+                errors: errors.array(),
                 message: 'Некорректные данные'
             })
         }
@@ -31,7 +31,7 @@ router.post(
             return res.status(400).json({message: 'Данный пользователь уже существует'})
         }
 
-        const hashedPassword = await bcrypt.hash(password, 42)
+        const hashedPassword = await bcrypt.hash(password, 12)
         const user = new User({email, password: hashedPassword})
 
         await user.save()
@@ -46,7 +46,7 @@ router.post(
 router.post(
     '/login',[
         check('email', 'Введите корректный email').normalizeEmail().isEmail(),
-        check('password', 'Ввежите пароль').exists()
+        check('password', 'Введите пароль').exists()
     ],
      async (req, res) =>{
         try {
