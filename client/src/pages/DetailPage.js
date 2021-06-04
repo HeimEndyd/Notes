@@ -16,7 +16,6 @@ export const DetailPage = () => {
             const fetched = await request(`/api/note/${noteId}`, 'GET', null, {
                 Authorization: `Bearer ${token}`
             })
-            console.log(fetched);
             setNote(fetched)
         } catch (e) {}
     }, [token, noteId, request])
