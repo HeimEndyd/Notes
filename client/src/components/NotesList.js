@@ -2,33 +2,33 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export const NotesList = ({ notes }) => {
-    if (!notes.length) {
-        return <p className="center">Заметок нет</p>
-    }
+  if (!notes.length) {
+    return <p className='center'>Заметок нет</p>
+  }
 
-    return (
+  return (
     <table>
-        <thead>
-          <tr>
-              <th>№</th>
-              <th>Текст</th>
-              <th>Открыть</th>
-          </tr>
-        </thead>
+      <thead>
+        <tr>
+          <th>№</th>
+          <th>Текст</th>
+          <th>Открыть</th>
+        </tr>
+      </thead>
 
-        <tbody>
+      <tbody>
         {notes.map((note, index) => {
-            return (
+          return (
             <tr key={note._id}>
-                <td>{index + 1}</td>
-                <td>{note.text}</td>
-                <td>
-                    <Link to={`/detail/${note._id}`}>Открыть</Link>
-                </td>
+              <td>{index + 1}</td>
+              <td>{note.text}</td>
+              <td>
+                <Link to={`/detail/${note._id}`}>Открыть</Link>
+              </td>
             </tr>
-            )
+          )
         })}
-        </tbody>
+      </tbody>
     </table>
-    )
+  )
 }

@@ -5,29 +5,25 @@ import { AuthContext } from '../context/AuthContext'
 import { useHttp } from '../hooks/http.hook'
 
 export const NotesPage = () => {
-    const [notes, setNotes] = useState([])
-    const {loading, request} = useHttp()
-    const {token} = useContext(AuthContext)
+  const [notes, setNotes] = useState([])
+  const { loading, request } = useHttp()
+  const { token } = useContext(AuthContext)
 
-    const fetchNotes = useCallback( async () => {
-        try {
-            const fetched = await request('/api/note', 'GET', null, {
-                Authorization: `Bearer ${token}`
-            })
-            setNotes(fetched)
-        } catch (e) {}
-    },  [token, request])
+  const fetchNotes = useCallback(async () => {
+    try {
+      const fetched = await request('/api/note', 'GET', null, {
+        Authorization: `Bearer ${token}`,
+      })
+      setNotes(fetched)
+    } catch (e) {}
+  }, [token, request])
 
-    useEffect( () => {
-        fetchNotes()
-    }, [fetchNotes])
+  useEffect(() => {
+    fetchNotes()
+  }, [fetchNotes])
 
-    if (loading) {
-        return <Loader/>
-    }
-    return (
-        <>
-            {!loading && <NotesList notes={notes}/>}
-        </>
-    )
+  if (loading) {
+    return <Loader />
+  }
+  return <>{!loading && <NotesList notes={notes} />}</>
 }
