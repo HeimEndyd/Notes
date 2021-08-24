@@ -20,8 +20,8 @@ export const NotesList = ({ notes }) => {
     note.index = index
     note.draw = function () {
       return (
-        <div className='col s12 m6 l3'>
-          <div className='card blue-grey darken-2' key={this._id}>
+        <div className='col s12 m6 l3' key={this._id}>
+          <div className='card blue-grey darken-2'>
             <div className='card-content white-text'>
               <blockquote>{this.index}</blockquote>
               <blockquote>{this.text}</blockquote>
@@ -41,7 +41,7 @@ export const NotesList = ({ notes }) => {
     <>
       {slicedNotes.map((noteRow, index) => {
         return (
-          <div className='row'>
+          <div className='row' key={index}>
             {noteRow.map((note) => {
               return note.draw()
             })}

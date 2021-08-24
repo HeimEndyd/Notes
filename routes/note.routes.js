@@ -8,7 +8,7 @@ const router = Router()
 router.post('/generate', auth, async (req, res) => {
   try {
     const baseUrl = config.get('baseUrl')
-    const { text } = req.body
+    const { text, tags } = req.body
 
     const code = shortid.generate()
 
@@ -21,6 +21,7 @@ router.post('/generate', auth, async (req, res) => {
     const note = new Note({
       text,
       code,
+      tags,
       owner: req.user.userId,
     })
 
