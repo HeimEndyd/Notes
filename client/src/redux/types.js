@@ -1,0 +1,1 @@
+export const CHANGE_TEXT = 'NOTE/CHANGE_TEXT'

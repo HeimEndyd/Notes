@@ -1,80 +1,65 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { useHttp } from '../hooks/http.hook'
-import { useHistory } from 'react-router-dom'
-import { tagPalette } from '../components/TagPalette'
+import React from 'react'
+import { connect } from 'react-redux'
+import { changeText } from '../redux/noteActions'
 
-export const CreatePage = () => {
-  const history = useHistory()
-  const auth = useContext(AuthContext)
-  const { request } = useHttp()
-  const [note, setNote] = useState('')
-  const [tags, setTags] = useState([])
+class CreateNoteForm extends React.Component {
+  constructor(props) {
+    super(props)
 
-  useEffect(() => {
-    window.M.updateTextFields()
-  })
-
-  const pressHandler = async (event) => {
-    if (event.key === 'Enter') {
-      try {
-        const data = await request(
-          '/api/note/generate',
-          'POST',
-          { text: note, tags: tags },
-          {
-            Authorization: 'Bearer ' + auth.token,
-          }
-        )
-        history.push('/detail/' + data.note._id)
-      } catch (e) {}
-    }
+    this.state = { ...props.state }
   }
 
-  const changeHandler = async (event) => {
-    const noteText = event.target.value
-    setTags([])
-    setNote(noteText)
-
-    if (noteText.includes('#')) {
-      const tags = noteText
-        .split('#')
-        .slice(1)
-        .map((tag) => tag.split(' ')[0])
-        //Убираем пустые теги
-        .filter((possibleTag) => possibleTag !== '')
-        //Убираем дубли
-        .filter((v, i, a) => a.indexOf(v) === i)
-        .map((tag, index) => {
-          return {
-            tagText: tag,
-            tagColor: tagPalette.Color(index),
-          }
-        })
-      setTags(tags)
-    }
+  changeInputHandler = (event) => {
+    event.persist()
+    this.props.changeText(event.target.value)
+    this.setState((prev) => ({
+      ...prev,
+      ...{
+        [event.target.name]: event.target.value,
+      },
+    }))
   }
 
-  return (
-    <div className='row'>
-      <div className='col s8 offset-s2'>
-        <div className='input-field'>
-          <input
-            placeholder='Заметка'
-            id='note'
-            type='text'
-            value={note}
-            onChange={changeHandler}
-            onKeyPress={pressHandler}
-          />
-          <label htmlFor='note'>Введите текст</label>
-          <div>
-            {tags.map((tag) => {
-              return <div className={'chip ' + tag.tagColor}>{tag.tagText}</div>
-            })}
+  render() {
+    return (
+      <div className='row'>
+        <div className='col s8 offset-s2'>
+          <div className='input-field'>
+            <input
+              placeholder='Заметка'
+              id='note'
+              type='text'
+              name='note'
+              value={this.state.note}
+              onChange={this.changeInputHandler}
+              // onKeyPress={pressHandler}
+            />
+            <label htmlFor='note'>Введите текст</label>
+            <div>
+              {this.state.tags.map((tag) => {
+                return (
+                  <div className={'chip'} key={tag}>
+                    {tag}
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
+
+const mapDispatchToProps = {
+  changeText,
+}
+
+const mapStateToProps = (state) => ({
+  state: state.newNoteReduser,
+})
+
+export const CreatePage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateNoteForm)
