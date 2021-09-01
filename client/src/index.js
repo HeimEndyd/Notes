@@ -8,11 +8,7 @@ import { rootReduser } from './redux/rootReduser'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-
-const store = createStore(
-  rootReduser,
-  composeWithDevTools(applyMiddleware(thunk))
-)
+import store from './store'
 
 const app = (
   <Provider store={store}>

@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { changeText } from '../redux/noteActions'
+import { setNote } from './CreatePageSlice'
 
 class CreateNoteForm extends React.Component {
   changeInputHandler = ({ target }) => {
-    console.log(target.value)
-    this.props.changeText(target.value)
-    console.log(target.value)
+    this.props.setNote(target.value)
   }
 
   render() {
@@ -40,12 +39,12 @@ class CreateNoteForm extends React.Component {
 }
 
 const mapDispatchToProps = {
-  changeText,
+  setNote,
 }
 
 const mapStateToProps = (state) => {
   return {
-    newNote: state.newNoteReduser,
+    newNote: state.createPage,
   }
 }
 
