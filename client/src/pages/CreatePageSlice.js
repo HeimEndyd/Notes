@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { tagPalette } from '../components/TagPalette'
 
 const initialState = {
-  note: '',
+  text: '',
   tags: [],
 }
 
@@ -11,7 +11,7 @@ export const counterSlice = createSlice({
   initialState,
   reducers: {
     setNote: (state, { payload }) => {
-      state.note = payload
+      state.text = payload
       state.tags = []
       if (payload.includes('#')) {
         state.tags = payload
