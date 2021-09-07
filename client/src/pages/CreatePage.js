@@ -1,11 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { changeText } from '../redux/noteActions'
 import { setNote } from './CreatePageSlice'
 
 class CreateNoteForm extends React.Component {
   changeInputHandler = ({ target }) => {
     this.props.setNote(target.value)
+  }
+
+  componentDidMount() {
+    window.M.updateTextFields()
   }
 
   render() {
@@ -23,13 +26,13 @@ class CreateNoteForm extends React.Component {
             />
             <label htmlFor='note'>Введите текст</label>
             <div>
-              {/* {this.state.tags.map((tag) => {
+              {this.props.newNote.tags.map(({ tagText, tagColor }) => {
                 return (
-                  <div className={'chip'} key={tag}>
-                    {tag}
+                  <div className={'chip ' + tagColor} key={tagText}>
+                    {tagText}
                   </div>
                 )
-              })} */}
+              })}
             </div>
           </div>
         </div>
